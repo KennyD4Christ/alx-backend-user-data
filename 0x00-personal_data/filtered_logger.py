@@ -18,7 +18,6 @@ PII_FIELDS: Tuple[str, ...] = ("name", "email", "phone", "ssn", "password")
 
 def filter_datum(fields: List[str], redaction: str, message: str,
                  separator: str) -> str:
-    # Obfuscates the specified fields in a log message.
     pattern = f"({'|'.join(fields)})=.*?(?={separator}|$)"
     return re.sub(pattern, lambda m: f"{m.group(1)}={redaction}", message)
 
