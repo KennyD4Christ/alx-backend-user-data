@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Module of Users views
+Users Views Module
 This module provides API endpoints for user-related operations,
 including viewing, creating, updating, and deleting users.
 """
+
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.user import User
@@ -30,14 +31,14 @@ def view_one_user(user_id: str = None) -> str:
 
     Args:
         user_id (str): The ID of the user to retrieve, or 'me' for the
-        authenticated user
+                       authenticated user.
 
     Returns:
-        str: JSON representation of the User object
+        str: JSON representation of the User object.
 
     Raises:
         404: If the User ID doesn't exist or if 'me' is used and no
-        user is authenticated
+             user is authenticated.
     """
     if user_id == 'me':
         if request.current_user is None:
@@ -65,13 +66,13 @@ def delete_user(user_id: str = None) -> str:
     Delete a User object.
 
     Args:
-        user_id (str): The ID of the user to delete
+        user_id (str): The ID of the user to delete.
 
     Returns:
-        str: Empty JSON if the User has been correctly deleted
+        str: Empty JSON if the User has been correctly deleted.
 
     Raises:
-        404: If the User ID doesn't exist
+        404: If the User ID doesn't exist.
     """
     if user_id is None:
         abort(404)
@@ -95,10 +96,10 @@ def create_user() -> str:
         - first_name: string (optional)
 
     Returns:
-        str: JSON representation of the newly created User object
+        str: JSON representation of the newly created User object.
 
     Raises:
-        400: If the request is invalid or the user can't be created
+        400: If the request is invalid or the user can't be created.
     """
     rj = None
     error_msg = None
@@ -133,18 +134,18 @@ def update_user(user_id: str = None) -> str:
     Update a User object.
 
     Args:
-        user_id (str): The ID of the user to update
+        user_id (str): The ID of the user to update.
 
     JSON body:
         - last_name: string (optional)
         - first_name: string (optional)
 
     Returns:
-        str: JSON representation of the updated User object
+        str: JSON representation of the updated User object.
 
     Raises:
-        404: If the User ID doesn't exist
-        400: If the request is invalid or the user can't be updated
+        404: If the User ID doesn't exist.
+        400: If the request is invalid or the user can't be updated.
     """
     if user_id is None:
         abort(404)
