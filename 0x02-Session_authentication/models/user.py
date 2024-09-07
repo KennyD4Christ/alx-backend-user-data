@@ -19,16 +19,26 @@ class User(Base):
         self.first_name = kwargs.get('first_name')
         self.last_name = kwargs.get('last_name')
 
-    def to_json(self) -> dict:
+    def to_json(self, for_serialization: bool = False) -> dict:
         """ Convert User instance to dictionary JSON representation """
-        return {
-            'id': self.id,
+        json_dict = super().to_json(for_serialization)
+        
+        # Remove _password from the dictionary if it exists
+        json_dict.pop('_password', None)
+        
+        # Add specific User attributes
+        json_dict.update({
             'email': self.email,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S') if isinstance(self.created_at, datetime) else self.created_at,
-            'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S') if isinstance(self.updated_at, datetime) else self.updated_at
-        }
+        })
+        
+        # Format datetime objects
+        for key in ['created_at', 'updated_at']:
+            if isinstance(json_dict.get(key), datetime):
+                json_dict[key] = json_dict[key].strftime('%Y-%m-%d %H:%M:%S')
+        
+        return json_dict
 
     @property
     def password(self) -> str:
