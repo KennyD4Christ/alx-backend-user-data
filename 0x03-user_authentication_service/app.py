@@ -21,27 +21,31 @@ def welcome() -> str:
 
 
 @app.route("/users", methods=["POST"])
-def register_user() -> dict:
+def users() -> str:
     """
-    Endpoint to register a new user with email and password.
+    User registration route that handles the creation of a new user.
 
-    Expects form data with 'email' and 'password' fields.
+    It expects form data fields: "email" and "password".
+    If the user is successfully registered, it returns a JSON response with
+    the user's email and a success message.
+    If the user is already registered, it returns a JSON error message with
+    a 400 status code.
 
     Returns:
-        dict: JSON payload with the registration status.
+        str: A JSON object with either a success message or an error message.
     """
-    # Get form data
-    email = request.form.get("email")
-    password = request.form.get("password")
+    email = request.form.get('email')
+    password = request.form.get('password')
 
     if not email or not password:
         return jsonify({"message": "Missing email or password"}), 400
 
     try:
-        # Register the user
+        # Register the user using the Auth class
         user = AUTH.register_user(email, password)
-        return jsonify({"email": user.email, "message": "user created"}), 201
+        return jsonify({"email": user.email, "message": "user created"})
     except ValueError:
+        # If user already exists, return a 400 error
         return jsonify({"message": "email already registered"}), 400
 
 
