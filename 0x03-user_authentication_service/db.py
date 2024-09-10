@@ -2,33 +2,30 @@
 """
 Database module for managing user data and interactions with the database.
 """
-from sqlalchemy.orm.session import Session
 from user import Base, User
 from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.exc import NoResultFound, InvalidRequestError
+from sqlalchemy.orm.session import Session
+
+from user import Base
 
 
 class DB:
-    """
-    DB class for handling database operations related to users.
+    """DB class
     """
 
     def __init__(self) -> None:
-        """Initialize a new DB instance and set up the database schema.
+        """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db")
+        self._engine = create_engine("sqlite:///a.db", echo=True)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
 
     @property
     def _session(self) -> Session:
-        """
-        Provide a memoized session object for database interactions.
-
-        Returns:
-            Session: The current database session.
+        """Memoized session object
         """
         if self.__session is None:
             DBSession = sessionmaker(bind=self._engine)
