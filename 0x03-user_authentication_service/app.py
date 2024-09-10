@@ -10,12 +10,12 @@ AUTH = Auth()
 
 
 @app.route("/", methods=["GET"])
-def home() -> dict:
+def welcome() -> str:
     """
-    Endpoint to return a JSON message.
+    Welcome route that returns a JSON response with a welcome message.
 
     Returns:
-        dict: JSON payload with a welcome message.
+        str: A JSON object with a welcome message.
     """
     return jsonify({"message": "Bienvenue"})
 
@@ -168,4 +168,4 @@ def update_password():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port="5000")
