@@ -8,8 +8,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
-from user import Base
-
 
 class DB:
     """DB class
@@ -42,10 +40,13 @@ class DB:
         Returns:
             User: The created User object.
         """
-        user = User(email=email, hashed_password=hashed_password)
-        self._session.add(user)
+        new_user = User(email=email, hashed_password=hashed_password)
+        # Add the user to the session
+        self._session.add(new_user)
+        # Commit the session to save the user to the database
         self._session.commit()
-        return user
+        # Return the new user
+        return new_user
 
     def find_user_by(self, **kwargs) -> User:
         """
