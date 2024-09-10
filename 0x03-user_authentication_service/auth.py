@@ -33,17 +33,21 @@ class Auth:
 
     def register_user(self, email: str, password: str) -> User:
         """
-        Register a new user with the given email and password.
+        Registers a new user with the given email and password.
+
+        If the user already exists, a ValueError is raised.
+        The password is hashed using bcrypt before
+        saving the user to the database.
 
         Args:
-            email (str): The email of the user to register.
-            password (str): The password for the user.
+            email (str): The user's email address.
+            password (str): The user's plain text password.
 
         Returns:
-            User: The newly created User object.
+            User: The newly registered user object.
 
         Raises:
-            ValueError: If a user with the given email already exists.
+            ValueError: If a user with the same email already exists.
         """
         try:
             # Check if the user already exists by email
